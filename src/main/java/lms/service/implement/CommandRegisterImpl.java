@@ -4,13 +4,12 @@ import lms.dao.UserDao;
 import lms.entity.User;
 import lms.service.ICommand;
 import lms.util.Constant;
-import sun.misc.MessageUtils;
 
 import java.text.MessageFormat;
 
 public class CommandRegisterImpl implements ICommand {
     @Override
-    public String process(String[] Arr) {
+    public String process(String[] Arr) throws Exception {
         User user = new User();
         user.setRole(Arr[1]);
         user.setName(Arr[2]);

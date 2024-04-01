@@ -33,7 +33,7 @@ public class BookDao {
                 return temBook;
             }
         }
-        return null;
+        return new Book();
     }
 
 }

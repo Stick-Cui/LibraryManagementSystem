@@ -4,6 +4,7 @@ import lms.entity.Book;
 import lms.entity.User;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,15 @@ public class UserDao {
 
     public static void deleteUser(User user) {
         userList.removeIf(temUser -> temUser.getName().equals(user.getName()));
+    }
+
+    public static boolean validateUser(User user) {
+        for (User temUser: userList){
+            if (temUser.getName().equals(user.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static User queryUser(User user) {

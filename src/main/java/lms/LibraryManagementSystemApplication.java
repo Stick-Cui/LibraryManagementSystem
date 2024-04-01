@@ -1,7 +1,9 @@
 package lms;
 
 
+import lms.entity.User;
 import lms.service.ICommand;
+import lms.service.implement.CommandLoginImpl;
 import lms.service.implement.CommandRegisterImpl;
 import lms.util.Command;
 import lms.util.Constant;
@@ -16,9 +18,10 @@ public class LibraryManagementSystemApplication {
         for (Command commandSingle:Command.values()){
             command.add(commandSingle.toString().toLowerCase());
         }
-        commandHandler.put("register",new CommandRegisterImpl());
+        commandHandler.put(Command.REGISTER.toString().toLowerCase(),new CommandRegisterImpl());
+        commandHandler.put(Command.LOGIN.toString().toLowerCase(),new CommandLoginImpl());
     }
-
+    public static User currentLoginUser;
 
     public static void main(String[] args) {
 
@@ -42,7 +45,12 @@ public class LibraryManagementSystemApplication {
                     continue;
                 }else{
                     ICommand handler = commandHandler.get(arr[0]);
-                    String msg = handler.process(arr);
+                    String msg = "";
+                    try {
+                        msg = handler.process(arr);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     System.out.println(msg);
                 }
             }
