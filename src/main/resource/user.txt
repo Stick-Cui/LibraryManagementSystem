@@ -1,1 +1,2 @@
 Admin,admin,admin
+User,jun,jun

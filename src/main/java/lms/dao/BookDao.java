@@ -14,7 +14,7 @@ import static com.sun.org.apache.bcel.internal.util.SecuritySupport.getResourceA
 
 public class BookDao {
 
-    private static final List<Book> bookList = new ArrayList<>();
+    public static final List<Book> bookList = new ArrayList<>();
 
     public static void bookDataCache() {
         try {

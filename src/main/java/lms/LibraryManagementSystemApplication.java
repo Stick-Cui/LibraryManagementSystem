@@ -5,6 +5,7 @@ import lms.dao.BookDao;
 import lms.dao.UserDao;
 import lms.entity.User;
 import lms.service.ICommand;
+import lms.service.implement.CommandListImpl;
 import lms.service.implement.CommandLoginImpl;
 import lms.service.implement.CommandRegisterImpl;
 import lms.util.Command;
@@ -22,53 +23,53 @@ public class LibraryManagementSystemApplication {
         }
         commandHandler.put(Command.REGISTER.toString().toLowerCase(),new CommandRegisterImpl());
         commandHandler.put(Command.LOGIN.toString().toLowerCase(),new CommandLoginImpl());
+        commandHandler.put(Command.LIST.toString().toLowerCase(),new CommandListImpl());
         UserDao.userDataCache();
         BookDao.bookDataCache();
     }
     public static User currentLoginUser;
 
     public static void main(String[] args) {
-
-        boolean flag = true;
-        Scanner scan = new Scanner(System.in);
-        System.out.println("================welcome to library management system================");
-        while(flag){
-            System.out.println("please input your command below：");
-            // 判断是否还有输入
-            if (scan.hasNextLine()) {
-                // nextLine方式接收字符串
-                String str = scan.nextLine();
-                System.out.println("input command：" + str);
-                String[] arr = str.split(Constant.COMMAND_SPLIT);
-                if (Constant.COMMAND_EXIT.equals(arr[0])) {
-                    flag = false;
-                    UserDao.userDataPersistence();
-                    BookDao.bookDataPersistence();
-                    continue;
-                }
-                if (!command.contains(arr[0])){
-                    System.out.println("so far, do not support this command：" + arr[0]);
-                    continue;
-                }else{
-                    ICommand handler = commandHandler.get(arr[0]);
-                    String msg = "";
-                    try {
-                        msg = handler.process(arr);
-                    } catch (Exception e) {
-                        msg = "command is invalid, please check it!";
+        Scanner scan = null;
+        try {
+            boolean flag = true;
+            scan = new Scanner(System.in);
+            System.out.println("================welcome to library management system================");
+            while(flag){
+                System.out.println("please input your command below：");
+                // 判断是否还有输入
+                if (scan.hasNextLine()) {
+                    // nextLine方式接收字符串
+                    String str = scan.nextLine();
+                    System.out.println("input command：" + str);
+                    String[] arr = str.split(Constant.COMMAND_SPLIT);
+                    if (Constant.COMMAND_EXIT.equals(arr[0])) {
+                        flag = false;
+                        UserDao.userDataPersistence();
+                        BookDao.bookDataPersistence();
+                        continue;
                     }
-                    System.out.println(msg);
+                    if (!command.contains(arr[0])){
+                        System.out.println("so far, do not support this command：" + arr[0]);
+                    }else{
+                        ICommand handler = commandHandler.get(arr[0]);
+                        String msg = "";
+                        try {
+                            msg = handler.process(arr);
+                        } catch (Exception e) {
+                            msg = "command is invalid, please check it!";
+                        }
+                        System.out.println(msg);
+                    }
                 }
             }
+        } catch (Exception e) {
+            System.out.println("server internal error!");
+        } finally {
+            assert scan != null;
+            scan.close();
+            UserDao.userDataPersistence();
+            BookDao.bookDataPersistence();
         }
-        scan.close();
-
-
     }
-
-
-
-
-
-
 }
