@@ -17,7 +17,7 @@ public class CommandLoginImpl implements ICommand {
         User existingUser = UserDao.validateUser(paramUser)?UserDao.queryUser(paramUser):null;
         if (existingUser!=null){
             LibraryManagementSystemApplication.currentLoginUser = existingUser;
-            return MessageFormat.format(Constant.SUCCESSFULLY_REGISTER,existingUser.getRole(),existingUser.getName());
+            return MessageFormat.format(Constant.SUCCESSFULLY_LOGIN,existingUser.getRole(),existingUser.getName());
         }else {
             return Constant.FAIL_LOGIN;
         }

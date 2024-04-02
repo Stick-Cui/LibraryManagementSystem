@@ -1,6 +1,8 @@
 package lms;
 
 
+import lms.dao.BookDao;
+import lms.dao.UserDao;
 import lms.entity.User;
 import lms.service.ICommand;
 import lms.service.implement.CommandLoginImpl;
@@ -20,6 +22,8 @@ public class LibraryManagementSystemApplication {
         }
         commandHandler.put(Command.REGISTER.toString().toLowerCase(),new CommandRegisterImpl());
         commandHandler.put(Command.LOGIN.toString().toLowerCase(),new CommandLoginImpl());
+        UserDao.userDataCache();
+        BookDao.bookDataCache();
     }
     public static User currentLoginUser;
 
@@ -38,6 +42,8 @@ public class LibraryManagementSystemApplication {
                 String[] arr = str.split(Constant.COMMAND_SPLIT);
                 if (Constant.COMMAND_EXIT.equals(arr[0])) {
                     flag = false;
+                    UserDao.userDataPersistence();
+                    BookDao.bookDataPersistence();
                     continue;
                 }
                 if (!command.contains(arr[0])){
@@ -49,7 +55,7 @@ public class LibraryManagementSystemApplication {
                     try {
                         msg = handler.process(arr);
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        msg = "command is invalid, please check it!";
                     }
                     System.out.println(msg);
                 }
@@ -59,6 +65,9 @@ public class LibraryManagementSystemApplication {
 
 
     }
+
+
+
 
 
 

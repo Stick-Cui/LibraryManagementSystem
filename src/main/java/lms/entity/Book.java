@@ -5,7 +5,7 @@ public class Book {
     private String name;
     private String author;
     private String inventory;
-    private Boolean isBorrowed;
+    private boolean isBorrowed;
     private String borrowedBy;
 
     public Book() {
