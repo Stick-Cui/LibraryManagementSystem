@@ -11,13 +11,11 @@ import java.text.MessageFormat;
 
 public class CommandListImpl implements ICommand {
     @Override
-    public String process(String[] Arr) throws Exception {
+    public String process(String[] arr) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(Constant.BOOK_LIST).append("\r\n");
         for (Book book:BookDao.bookList){
-            sb.append(book.getAuthor()).append(",");
-            sb.append(book.getName()).append(",");
-            sb.append(book.getInventory());
+            sb.append(MessageFormat.format(Constant.BOOK_INFO_ROW,book.getName(),book.getAuthor(),book.getInventory()));
             sb.append("\r\n");
         }
         sb.replace(sb.length()-1,sb.length(),"");

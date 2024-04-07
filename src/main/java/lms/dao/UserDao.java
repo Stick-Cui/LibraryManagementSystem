@@ -14,6 +14,7 @@ import static com.sun.org.apache.bcel.internal.util.SecuritySupport.getResourceA
 public class UserDao {
 
     private static final List<User> userList = new ArrayList<>();
+    public static User currentLoginUser = new User();
 
     public static void userDataCache() {
         try {
@@ -38,7 +39,7 @@ public class UserDao {
         BufferedWriter bufferedWriter = null;
         try {
             String resourcePath = Objects.requireNonNull(UserDao.class.getClassLoader().getResource("")).getPath();
-            System.out.println(resourcePath);
+            //System.out.println(resourcePath);
             File file = new File(resourcePath+Constant.USER_DATA_FILE);
             if(!userList.isEmpty()&&file.exists()&&file.delete()){
                 if(file.createNewFile()){

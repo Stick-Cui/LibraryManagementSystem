@@ -5,9 +5,7 @@ import lms.dao.BookDao;
 import lms.dao.UserDao;
 import lms.entity.User;
 import lms.service.ICommand;
-import lms.service.implement.CommandListImpl;
-import lms.service.implement.CommandLoginImpl;
-import lms.service.implement.CommandRegisterImpl;
+import lms.service.implement.*;
 import lms.util.Command;
 import lms.util.Constant;
 
@@ -24,10 +22,15 @@ public class LibraryManagementSystemApplication {
         commandHandler.put(Command.REGISTER.toString().toLowerCase(),new CommandRegisterImpl());
         commandHandler.put(Command.LOGIN.toString().toLowerCase(),new CommandLoginImpl());
         commandHandler.put(Command.LIST.toString().toLowerCase(),new CommandListImpl());
+        commandHandler.put(Command.SEARCH.toString().toLowerCase(),new CommandSearchImpl());
+        commandHandler.put(Command.ADD.toString().toLowerCase(),new CommandAddImpl());
+        commandHandler.put(Command.DELETE.toString().toLowerCase(),new CommandDeleteImpl());
+        commandHandler.put(Command.BORROW.toString().toLowerCase(),new CommandBorrowImpl());
+        commandHandler.put(Command.RETURN.toString().toLowerCase(),new CommandReturnImpl());
         UserDao.userDataCache();
         BookDao.bookDataCache();
     }
-    public static User currentLoginUser;
+
 
     public static void main(String[] args) {
         Scanner scan = null;
@@ -49,7 +52,7 @@ public class LibraryManagementSystemApplication {
                         BookDao.bookDataPersistence();
                         continue;
                     }
-                    if (!command.contains(arr[0])){
+                    if (!command.contains(arr[0])) {
                         System.out.println("so far, do not support this command：" + arr[0]);
                     }else{
                         ICommand handler = commandHandler.get(arr[0]);
@@ -57,6 +60,7 @@ public class LibraryManagementSystemApplication {
                         try {
                             msg = handler.process(arr);
                         } catch (Exception e) {
+                            e.printStackTrace();
                             msg = "command is invalid, please check it!";
                         }
                         System.out.println(msg);

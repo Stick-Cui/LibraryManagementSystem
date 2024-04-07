@@ -5,7 +5,7 @@ public class Book {
     private String name;
     private String author;
     private String inventory;
-    private boolean isBorrowed;
+    private boolean ifBorrowed;
     private String borrowedBy;
 
     public Book() {
@@ -41,12 +41,12 @@ public class Book {
         this.inventory = inventory;
     }
 
-    public Boolean getBorrowed() {
-        return isBorrowed;
+    public boolean isIfBorrowed() {
+        return ifBorrowed;
     }
 
-    public void setBorrowed(Boolean borrowed) {
-        isBorrowed = borrowed;
+    public void setIfBorrowed(boolean ifBorrowed) {
+        this.ifBorrowed = ifBorrowed;
     }
 
     public String getBorrowedBy() {

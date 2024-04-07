@@ -2,6 +2,6 @@ package lms.service;
 
 public interface ICommand {
 
-    public String process(String[] Arr) throws Exception;
+    public String process(String[] arr) throws Exception;
 
 }

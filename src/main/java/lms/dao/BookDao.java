@@ -27,7 +27,7 @@ public class BookDao {
                 book.setAuthor(arr[0]);
                 book.setName(arr[1]);
                 book.setInventory(arr[2]);
-                book.setBorrowed(arr.length>3 && !arr[3].isEmpty() && arr[3].equals("1"));
+                book.setIfBorrowed(arr.length>3 && !arr[3].isEmpty() && arr[3].equals("1"));
                 book.setBorrowedBy(arr.length>4?arr[4]:null);
                 bookList.add(book);
             }
@@ -51,7 +51,7 @@ public class BookDao {
                         sb.append(book.getAuthor()).append(",");
                         sb.append(book.getName()).append(",");
                         sb.append(book.getInventory()).append(",");
-                        if (book.getBorrowed()) {
+                        if (book.isIfBorrowed()) {
                             sb.append("1").append(",");
                         } else {
                             sb.append("0").append(",");
@@ -77,6 +77,13 @@ public class BookDao {
         bookList.add(book);
     }
 
+    public static void updateBook(Book book) {
+        Book existingBook = queryBook(book);
+        existingBook.setInventory(book.getInventory());
+        deleteBook(book);
+        bookList.add(existingBook);
+    }
+
     public static void deleteBook(Book book) {
         bookList.removeIf(temBook -> temBook.getName().equals(book.getName())&&temBook.getAuthor().equals(book.getAuthor()));
     }
@@ -99,5 +106,20 @@ public class BookDao {
         }
         return new Book();
     }
-
+    public static void borrowBook(Book book) {
+        for (Book temBook: bookList){
+            if (temBook.getName().equals(book.getName()) && temBook.getAuthor().equals(book.getAuthor())) {
+                temBook.setIfBorrowed(true);
+                temBook.setBorrowedBy(UserDao.currentLoginUser.getName());
+            }
+        }
+    }
+    public static void returnBook(Book book) {
+        for (Book temBook: bookList){
+            if (temBook.getName().equals(book.getName()) && temBook.getAuthor().equals(book.getAuthor())) {
+                temBook.setIfBorrowed(false);
+                temBook.setBorrowedBy(null);
+            }
+        }
+    }
 }
