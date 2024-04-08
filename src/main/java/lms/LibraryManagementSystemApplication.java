@@ -3,7 +3,6 @@ package lms;
 
 import lms.dao.BookDao;
 import lms.dao.UserDao;
-import lms.entity.User;
 import lms.service.ICommand;
 import lms.service.implement.*;
 import lms.util.Command;
@@ -48,8 +47,6 @@ public class LibraryManagementSystemApplication {
                     String[] arr = str.split(Constant.COMMAND_SPLIT);
                     if (Constant.COMMAND_EXIT.equals(arr[0])) {
                         flag = false;
-                        UserDao.userDataPersistence();
-                        BookDao.bookDataPersistence();
                         continue;
                     }
                     if (!command.contains(arr[0])) {
@@ -58,7 +55,7 @@ public class LibraryManagementSystemApplication {
                         ICommand handler = commandHandler.get(arr[0]);
                         String msg = "";
                         try {
-                            msg = handler.process(arr);
+                            msg = handler.process(arr[0],str);
                         } catch (Exception e) {
                             e.printStackTrace();
                             msg = "command is invalid, please check it!";

@@ -6,6 +6,7 @@ import lms.dao.UserDao;
 import lms.service.ICommand;
 import lms.service.implement.CommandLoginImpl;
 import lms.service.implement.CommandRegisterImpl;
+import lms.util.Constant;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ public class TestCommandCase {
         String command = "register Admin jun jun";
         String expect = "Admin jun successfully registered.";
         ICommand registerCommandService = new CommandRegisterImpl();
-        String actual = registerCommandService.process(command.split(" "));
+        String actual = registerCommandService.process(command.split(Constant.COMMAND_SPLIT)[0],command);
         System.out.println(actual);
         Assertions.assertEquals(expect,actual);
     }
@@ -34,11 +35,10 @@ public class TestCommandCase {
         String command = "login jun jun";
         String expect = "User jun successfully logged in.";
         ICommand loginCommandService = new CommandLoginImpl();
-        String actual = loginCommandService.process(command.split(" "));
+        String actual = loginCommandService.process(command.split(Constant.COMMAND_SPLIT)[0],command);
         System.out.println(actual);
         Assertions.assertEquals(expect,actual);
     }
-
 
 
 

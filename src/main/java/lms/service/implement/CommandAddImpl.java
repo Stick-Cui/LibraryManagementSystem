@@ -2,19 +2,30 @@ package lms.service.implement;
 
 import lms.dao.BookDao;
 import lms.entity.Book;
+import lms.service.ACommand;
 import lms.service.ICommand;
 import lms.util.Constant;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class CommandAddImpl implements ICommand {
+public class CommandAddImpl extends ACommand implements ICommand {
 
     @Override
-    public String process(String[] arr) throws Exception {
-        Book paramBook = new Book();
-        paramBook.setName(arr[1]);
-        paramBook.setAuthor(arr[2]);
-        paramBook.setInventory(arr[3]);
+    public String process(String command,String commandLine) throws Exception {
+        Map<String,String> map = super.accessControlWithLogin(command,commandLine);
+        if(map.get(Constant.YES_OR_NO).equals(Constant.NO)){
+            return map.get(Constant.MSG);
+        }else{
+            return add(commandLine);
+        }
+    }
+
+    public String add(String commandLine) throws Exception {
+        Book paramBook = getBookInfoFromCommandLine(commandLine);
         if (BookDao.ifBookExist(paramBook)){
             BookDao.updateBook(paramBook);
             return MessageFormat.format(Constant.SUCCESSFULLY_UPDATE_BOOK,paramBook.getName(),paramBook.getInventory());
@@ -24,4 +35,19 @@ public class CommandAddImpl implements ICommand {
         }
     }
 
+    @Override
+    public Map<String,String> checkCommandLine(String command,String commandLine) {
+        Pattern r = Pattern.compile(Constant.REGEX_ADD);
+        Matcher m = r.matcher(commandLine);
+        System.out.println(m.matches());
+        Map<String,String> returnMap = new HashMap<String,String>();
+        if (!m.matches()){
+            returnMap.put(Constant.YES_OR_NO,Constant.NO);
+            returnMap.put(Constant.MSG,
+                    MessageFormat.format(Constant.COMMAND_LINE_CHECK,command,Constant.COMMAND_ADD_USAGE));
+        }else{
+            returnMap.put(Constant.YES_OR_NO,Constant.YES);
+        }
+        return returnMap;
+    }
 }
