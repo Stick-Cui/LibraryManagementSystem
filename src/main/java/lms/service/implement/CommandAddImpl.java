@@ -39,7 +39,7 @@ public class CommandAddImpl extends ACommand implements ICommand {
     public Map<String,String> checkCommandLine(String command,String commandLine) {
         Pattern r = Pattern.compile(Constant.REGEX_ADD);
         Matcher m = r.matcher(commandLine);
-        System.out.println(m.matches());
+        //System.out.println(m.matches());
         Map<String,String> returnMap = new HashMap<String,String>();
         if (!m.matches()){
             returnMap.put(Constant.YES_OR_NO,Constant.NO);

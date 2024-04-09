@@ -43,7 +43,7 @@ public class LibraryManagementSystemApplication {
                 if (scan.hasNextLine()) {
                     // nextLine方式接收字符串
                     String str = scan.nextLine();
-                    System.out.println("input command：" + str);
+                    //System.out.println("input command：" + str);
                     String[] arr = str.split(Constant.COMMAND_SPLIT);
                     if (Constant.COMMAND_EXIT.equals(arr[0])) {
                         flag = false;
