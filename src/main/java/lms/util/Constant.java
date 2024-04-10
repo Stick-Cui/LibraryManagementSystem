@@ -42,7 +42,7 @@ public class Constant {
     public static String REGEX_RETURN = "return\\s\"[A-Za-z0-9\\s\\-\\.]+\"\\s\"[A-Za-z\\s\\-\\.]+\"";
     public static String REGEX_SEARCH = "search\\s\"[A-Za-z0-9\\s\\-\\.]+\"\\s\"[A-Za-z\\s\\-\\.]+\"";
     public static String REGEX_LIST = "list";
-    public static String REGEX_LOGIN = "login\\s[A-Za-z\\s\\-\\.]{3,20}\\s[A-Za-z0-9]{3,15}";
+    public static String REGEX_LOGIN = "login\\s[A-Za-z\\s\\-\\.]{3,20}\\s[A-Za-z0-9\\s\\-\\.\\!\\@\\#\\$\\%\\^\\&\\*]{3,15}";
     public static String REGEX_REGISTER = "register\\s(admin|user)\\s[A-Za-z\\s\\-\\.]{3,20}\\s[A-Za-z0-9\\s\\-\\.\\!\\@\\#\\$\\%\\^\\&\\*]{3,15}";
 
 

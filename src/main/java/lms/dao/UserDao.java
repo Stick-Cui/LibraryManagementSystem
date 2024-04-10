@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.sun.org.apache.bcel.internal.util.SecuritySupport.getResourceAsStream;
 
@@ -60,41 +61,19 @@ public class UserDao {
     }
 
 
-    public static void addUser(User user) {
-        userList.add(user);
+    public static void addUser(User user) {userList.add(user);
     }
 
-    public static void deleteUser(User user) {
-        userList.removeIf(temUser -> temUser.getName().equals(user.getName()));
+    public static void deleteUser(User user) {userList.removeIf(temUser -> temUser.getName().equals(user.getName()));
     }
 
     public static boolean validateUser(User user) {
-        for (User temUser: userList){
-            if (temUser.getName().equals(user.getName())) {
-                return true;
-            }
-        }
-        return false;
+        return userList.stream().anyMatch(temUser -> temUser.getName().equals(user.getName()));
     }
 
     public static User queryUser(User user) {
-        for (User temUser: userList){
-            if (temUser.getName().equals(user.getName())) {
-                return temUser;
-            }
-        }
-        return null;
-    }
-
-    public static boolean ifUserExist(User user) {
-        boolean flag = false;
-        for (User temUser: userList){
-            if (temUser.getName().equals(user.getName())) {
-                flag = true;
-                break;
-            }
-        }
-        return flag;
+        Optional<User> first = userList.stream().filter(temUser -> temUser.getName().equals(user.getName())).findFirst();
+        return first.orElseGet(User::new);
     }
 
 }

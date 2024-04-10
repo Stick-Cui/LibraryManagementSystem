@@ -38,7 +38,7 @@ public class LibraryManagementSystemApplication {
             scan = new Scanner(System.in);
             System.out.println("================welcome to library management system================");
             while(flag){
-                System.out.println("please input your command below：");
+                System.out.println("please input your command below or input exit to exit:");
                 // 判断是否还有输入
                 if (scan.hasNextLine()) {
                     // nextLine方式接收字符串
@@ -53,14 +53,13 @@ public class LibraryManagementSystemApplication {
                         System.out.println("so far, do not support this command：" + arr[0]);
                     }else{
                         ICommand handler = commandHandler.get(arr[0]);
-                        String msg = "";
                         try {
-                            msg = handler.process(arr[0],str);
+                            String msg = handler.process(arr[0],str);
+                            System.out.println(msg);
                         } catch (Exception e) {
+                            System.out.println("command is invalid, please check it!");
                             e.printStackTrace();
-                            msg = "command is invalid, please check it!";
                         }
-                        System.out.println(msg);
                     }
                 }
             }

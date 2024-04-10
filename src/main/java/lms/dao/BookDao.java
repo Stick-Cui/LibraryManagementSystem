@@ -1,7 +1,6 @@
 package lms.dao;
 
 import lms.entity.Book;
-import lms.entity.User;
 import lms.util.Constant;
 
 import java.io.*;
@@ -9,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.sun.org.apache.bcel.internal.util.SecuritySupport.getResourceAsStream;
 
@@ -89,22 +89,14 @@ public class BookDao {
     }
 
     public static boolean ifBookExist(Book book) {
-        boolean flag = false;
-        for (Book temBook: bookList){
-            if (temBook.getName().equals(book.getName()) && temBook.getAuthor().equals(book.getAuthor())) {
-                flag = true;
-                break;
-            }
-        }
-        return flag;
+        return bookList.stream()
+                        .anyMatch(temBook -> temBook.getName().equals(book.getName()) && temBook.getAuthor().equals(book.getAuthor()));
     }
     public static Book queryBook(Book book) {
-        for (Book temBook: bookList){
-            if (temBook.getName().equals(book.getName()) && temBook.getAuthor().equals(book.getAuthor())) {
-                return temBook;
-            }
-        }
-        return new Book();
+        Optional<Book> ifExist = bookList.stream()
+                .filter(temBook -> temBook.getName().equals(book.getName()) && temBook.getAuthor().equals(book.getAuthor()))
+                .findFirst();
+        return ifExist.orElseGet(Book::new);
     }
     public static void borrowBook(Book book) {
         for (Book temBook: bookList){
